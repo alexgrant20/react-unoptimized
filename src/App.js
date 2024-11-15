@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
 function App() {
+  console.log("Main App rendered");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Counter />
+      <footer>
+        <p>Copyright 2024 Panthera Inc.</p>
+      </footer>
+    </>
+  );
+}
+
+function Counter() {
+  const [count, setCount] = React.useState(0);
+
+  console.log("Counter rendered");
+  return (
+    <main>
+      <BigCountNumber count={count} />
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </main>
+  );
+}
+
+function BigCountNumber({ count }) {
+  console.log("BIG number rendered");
+  return (
+    <p>
+      <span className="prefix">Count:</span>
+      {count}
+    </p>
   );
 }
 
