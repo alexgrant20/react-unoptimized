@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Profiler } from "react";
 
-function App() {
+const LargeList = ({ items }) => {
+  console.log("LargeList rendered");
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ul>
+      {items.map((item, index) => (
+        <React.Fragment key={index}>
+          <li>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </li>
+        </React.Fragment>
+      ))}
+    </ul>
+  );
+};
+
+export default function App() {
+  function onRender(
+    id,
+    phase,
+    actualDuration,
+    baseDuration,
+    startTime,
+    commitTime
+  ) {
+    console.log(
+      `Render duration for ${id} (${phase} phase): ${actualDuration} ms`
+    );
+  }
+
+  const data = Array.from({ length: 10000 }, (_, i) => ({
+    title: `Item ${i + 1}`,
+    description: `Description for item ${i + 1}`,
+  }));
+
+  return (
+    <React.Fragment>
+      <Profiler id="app" onRender={onRender}>
+        <h1>Rendering Large List with React Fragments</h1>
+        <LargeList items={data} />
+      </Profiler>
+    </React.Fragment>
   );
 }
-
-export default App;
