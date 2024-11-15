@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import "./styles.css";
 
-function App() {
+import React, { useState, useCallback } from "react";
+
+const ChildComponent = React.memo(({ onClickHandler }) => {
+  console.log("ChildComponent rendered");
+  return <button onClick={onClickHandler}>Click Me</button>;
+});
+
+export default function App() {
+  const [count, setCount] = useState(0);
+  const [text, setText] = useState("");
+
+  const handleButtonClick = useCallback(() => {
+    console.log("Button clicked, current count:", count);
+    setCount((prev) => prev + 1);
+  }, [count]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h2>useCallback Example</h2>
+      <p>Count: {count}</p>
+
+      <input
+        type="text"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Type something..."
+      />
+
+      <ChildComponent onClickHandler={handleButtonClick} />
     </div>
   );
 }
-
-export default App;
